@@ -1,3 +1,6 @@
+from click.testing import CliRunner
+
+from dasy.dasy import checkCommand
 from dasy.models import Product, ProductCount
 from dasy.utils import DBUtils
 
@@ -6,6 +9,9 @@ class TestModelsBase:
     def setup(self):
         db_utils = DBUtils()
         self.master = db_utils.get_router()
+        runner = CliRunner()
+        result = runner.invoke(checkCommand, ["-m", "forward"])
+        assert result.exit_code == 0
 
     def teardown(self):
         del self.master
