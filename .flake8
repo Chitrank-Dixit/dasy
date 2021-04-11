@@ -1,0 +1,15 @@
+[flake8]
+ignore =
+  # W503 violates spec https://github.com/PyCQA/pycodestyle/issues/513
+  W503
+  # whitespace around commas (black)
+  E231
+  # black often surrounds ':' with whitespace
+  E203
+
+max-line-length=120
+
+per-file-ignores =
+  # ignore line length; qsl has to be on the same line, otherwise it is invalid
+  datum/dev_data.py:E501
+

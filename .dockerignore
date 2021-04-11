@@ -1,0 +1,7 @@
+.pytest_cache
+.tox
+datasync.egg-info
+*.pyc
+*.cpython-39-pytest-6.2.1.pyc
+.idea
+tests/__pycache__

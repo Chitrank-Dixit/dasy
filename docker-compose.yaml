@@ -1,0 +1,49 @@
+version: '3'
+services:
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+    environment:
+      - RABBITMQ_USERNAME=testuser
+      - RABBITMQ_PASSWORD=testpass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - process_dev
+    volumes:
+      - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - process_dev
+
+  dasy:
+    build: .
+    command: python3 -m http.server
+    environment:
+      - DB_NAME=postgres
+      - DB_HOST=db
+      - DB_PASSWORD=postgres
+      - DB_USER=postgres
+      - RABBIT_USER=testuser
+      - RABBIT_PASSWORD=testpass
+      - RABBIT_ADDR=rabbitmq
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+    networks:
+      - process_dev
+
+networks:
+  process_dev:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400
