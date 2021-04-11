@@ -6,3 +6,4 @@
 datasync.egg-info
 tests/__pycache__
 dasy/__pycache__
+data/products.csv*
