@@ -7,9 +7,7 @@ DB_USER = os.environ.get("DB_USER", "testuser")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "db123")
 
 
-DB_URL = "postgresql://{}:{}@{}:{}/{}".format(
-    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
-)
+DB_URL = "postgresql://{}:{}@{}:{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
 
 AMQP_HEARTBEAT = os.environ.get("AMQP_HEARTBEAT", 20)
 AMQP_MAX_RETRIES = os.environ.get("AMQP_MAX_RETRIES", 3)

@@ -1,6 +1,5 @@
 import json
 import logging
-import time
 
 import pandas as pd
 from kombu import Connection, Queue
@@ -13,7 +12,6 @@ logger.setLevel(logging.DEBUG)
 
 
 class Consumer:
-
     def __init__(self, engine, table_name):
         self.engine = engine
         self.table_name = table_name
@@ -27,16 +25,10 @@ class Consumer:
                     logger.info("processing")
                     _msg = sub_queue.get(block=False)
                     data = pd.read_json(json.loads(_msg.payload))
-                    logger.info(f"data retrieved")
-                    data.to_sql(
-                        self.table_name,
-                        con=self.engine,
-                        index=False,
-                        if_exists='append',
-                        method='multi'
-                    )
+                    logger.info("data retrieved")
+                    data.to_sql(self.table_name, con=self.engine, index=False, if_exists="append", method="multi")
                     _msg.ack()
-                except Exception as e:
+                except Exception:
                     break
             sub_queue.close()
             chan = _conn.channel()
@@ -46,7 +38,7 @@ class Consumer:
 
     def consumer_init(self, is_test=False):
         with Connection(RABBITMQ_URL) as conn:
-            rec = conn.SimpleQueue('control_queue')
+            rec = conn.SimpleQueue("control_queue")
             logger.info(f"{is_test}")
             if is_test:
                 while True:
@@ -64,5 +56,3 @@ class Consumer:
                     entry = msg.payload
                     msg.ack()
                     self.process_msg(entry)
-
-

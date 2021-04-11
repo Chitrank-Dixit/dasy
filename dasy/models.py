@@ -18,7 +18,6 @@ class ProductCount(Base):
     name = Column(Text, primary_key=True)
     no_of_products = Column(Integer, default=0)
 
-#Base.metadata.bind = get_engine()
-#Base.metadata.create_all()
 
-
+# Base.metadata.bind = get_engine()
+# Base.metadata.create_all()
